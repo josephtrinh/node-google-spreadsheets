@@ -16,6 +16,28 @@ A simple Node.js library to read data from a Google Spreadsheet.
 		});
 	});
 	
+## Iterate over all cells example
+    GoogleSpreadsheets({
+        key: <spreadsheet key>
+    }, function(err, spreadsheet) {
+    	if (err) {
+    		console.log(err);
+    		return;
+    	}
+
+        spreadsheet.worksheets[0].cells({}, function(err, data) {
+            var rows = Object.keys(data.cells);
+
+            for (var r in rows) {
+            	var cols = Object.keys(data.cells[rows[r]]);
+            	for (var c in cols) {
+            		var cell = data.cells[rows[r]][cols[c]];
+            		console.log(cell.value);
+            	}
+            }
+        });
+    });
+
 ## API
 
 *GoogleSpreadsheets = module.exports = function(opts, callback);*
@@ -107,15 +129,6 @@ library. I would recommend the [googleclientlogin](https://github.com/Ajnasz/Goo
 
 	googleAuth.login();
 
-## TODO:
-	- Publish to npm (lol)
-	- Write some tests
-
-## Further possibilities for this library
-	- Edit functionality
-	- Sorting/filtering on row listing
-	- Filtering on cell listing.
-
 ## Links
-	- <http://code.google.com/apis/spreadsheets/>
-	- <https://github.com/Ajnasz/GoogleClientLogin>
+	- http://code.google.com/apis/spreadsheets/
+	- https://github.com/Ajnasz/GoogleClientLogin
